@@ -99,7 +99,7 @@
 <meta property="og:image" content="/2019/12/25/设计模式/创建型模式/单例模式/doGetBean图片.png">
 <meta property="og:image" content="/2019/12/25/设计模式/创建型模式/单例模式/getSingleton图片.png">
 <meta property="og:image" content="/2019/12/25/设计模式/创建型模式/单例模式/getSingleton最终图片.png">
-<meta property="og:updated_time" content="2019-12-25T15:49:43.231Z">
+<meta property="og:updated_time" content="2019-12-25T15:50:39.928Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例模式">
 <meta name="twitter:description" content="单例模式介绍定义：保证一个类仅有一个实例，并提供一个全局访问点。 类型：创建型 适用场景：想确保任何情况下都绝对只有一个实例。 优点：  在内存里只有一个实例，减少内存开销；   可以避免对资源的多重占用；   设置全局访问点，严格控制访问；  缺点：没有借口，不方便扩展 重点：  私有构造器；   线程安全；   延迟加载；   序列化和反序列化安全；   反射；  相关设计模式：  单例模式和">
@@ -459,9 +459,11 @@
 <h4 id="容器单例"><a href="#容器单例" class="headerlink" title="容器单例"></a>容器单例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created By Administrator</span></span><br><span class="line"><span class="comment"> * User: VenusZ</span></span><br><span class="line"><span class="comment"> * Date: on 2019/12/25 22:44</span></span><br><span class="line"><span class="comment"> * Desc: 容器单例模式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContainerSingleton</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 使用map容器</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String,Object&gt; singletonMap = <span class="keyword">new</span> HashMap&lt;String,Object&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">putInstance</span><span class="params">(String key,Object instance )</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(StringUtils.isNotBlank(key) &amp;&amp; instance != <span class="keyword">null</span>) <span class="keyword">if</span> (singletonMap.containsKey(key)) &#123;</span><br><span class="line">            singletonMap.put(key, instance);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getInstance</span><span class="params">(String key)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> singletonMap.get(key);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="Enum枚举单例"><a href="#Enum枚举单例" class="headerlink" title="Enum枚举单例"></a>Enum枚举单例</h4><p>解决序列化和反序列化，以及反射工具破坏单例模式的隐患。<strong><u>推荐使用枚举单例</u></strong>。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用反编译jad工具查看对应反编译代码</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> EnumInstance &#123;</span><br><span class="line">    INSTANCE&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">printLine</span><span class="params">()</span> </span>&#123;</span><br><span class="line">          System.out.println(<span class="string">"print Line"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">printLine</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Object data;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><pre><code>1. 注意使用时，是否需要线程安全    
- 2. 注意使用时，是否序列化，会破坏单例模式
-</code></pre>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>注意使用时，是否需要线程安全</li>
+<li>注意使用时，是否序列化，会破坏单例模式</li>
+</ol>
+
       
     </div>
     
@@ -526,8 +528,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/12/24/设计模式/创建型模式/建造者模式/" rel="next" title="">
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2019/12/24/markdown 语法笔记/" rel="next" title="markdown 入门语法笔记">
+                <i class="fa fa-chevron-left"></i> markdown 入门语法笔记
               </a>
             
           </div>
@@ -535,6 +537,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/26/设计模式/创建型模式/简单工厂/" rel="prev" title="简单工厂、工厂方法和抽象工厂">
+                简单工厂、工厂方法和抽象工厂 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -772,7 +778,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">4.4k</span>
+    <span title="Site words total count">5.7k</span>
   
 </div>
 
