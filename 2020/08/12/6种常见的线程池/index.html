@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="设计模式,">
+  <meta name="keywords" content="Java,">
 
 
 
@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="设计模式在编码过程中需要结合实际的业务场景、业务模型进行对应的模式设计，但也不能过分遵守设计原则和使用设计模式，需要把握两者之间的平衡。">
-<meta name="keywords" content="设计模式">
+<meta name="description" content="Java中6种常见的线程池Java8中6中常见的线程池如下：  FixedThreadPool CacheThreadPool ScheduledThreadPool SingleThreadExecutor SingleThreadScheduledExecutor ForkJoinPool">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式">
-<meta property="og:url" content="/2019/12/24/设计模式/设计模式/index.html">
+<meta property="og:title" content="Java中6种常见的线程池">
+<meta property="og:url" content="/2020/08/12/6种常见的线程池/index.html">
 <meta property="og:site_name" content="VenusJ">
-<meta property="og:description" content="设计模式在编码过程中需要结合实际的业务场景、业务模型进行对应的模式设计，但也不能过分遵守设计原则和使用设计模式，需要把握两者之间的平衡。">
+<meta property="og:description" content="Java中6种常见的线程池Java8中6中常见的线程池如下：  FixedThreadPool CacheThreadPool ScheduledThreadPool SingleThreadExecutor SingleThreadScheduledExecutor ForkJoinPool">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-25T15:05:18.917Z">
+<meta property="og:updated_time" content="2020-08-12T13:59:24.884Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式">
-<meta name="twitter:description" content="设计模式在编码过程中需要结合实际的业务场景、业务模型进行对应的模式设计，但也不能过分遵守设计原则和使用设计模式，需要把握两者之间的平衡。">
+<meta name="twitter:title" content="Java中6种常见的线程池">
+<meta name="twitter:description" content="Java中6种常见的线程池Java8中6中常见的线程池如下：  FixedThreadPool CacheThreadPool ScheduledThreadPool SingleThreadExecutor SingleThreadScheduledExecutor ForkJoinPool">
 
 
 
@@ -129,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="/2019/12/24/设计模式/设计模式/">
+  <link rel="canonical" href="/2020/08/12/6种常见的线程池/">
 
 
 
 
 
-  <title>设计模式 | VenusJ</title>
+  <title>Java中6种常见的线程池 | VenusJ</title>
   
 
 
@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="/2019/12/24/设计模式/设计模式/">
+    <link itemprop="mainEntityOfPage" href="/2020/08/12/6种常见的线程池/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="VenusJ">
@@ -299,7 +299,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">设计模式</h1>
+          <h1 class="post-title" itemprop="name headline">Java中6种常见的线程池</h1>
         
 
         <div class="post-meta">
@@ -311,8 +311,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-24T00:00:00+08:00">
-                2019-12-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-12T00:00:00+08:00">
+                2020-08-12
               </time>
             
 
@@ -334,8 +334,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
+                  <a href="/categories/进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">进阶</span>
                   </a>
                 </span>
 
@@ -358,7 +358,7 @@
             <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
             </span>
 			<span class="post-meta-divider">|</span>
-			<span title="字数统计"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span>字数： 351</span>
+			<span title="字数统计"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span>字数： 1.9k</span>
           
 		  
           
@@ -375,7 +375,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  7
                 </span>
               
             </div>
@@ -401,63 +401,44 @@
       
 
       
-        <h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><p>在编码过程中需要结合实际的业务场景、业务模型进行对应的模式设计，但也不能过分遵守设计原则和使用设计模式，需要把握两者之间的平衡。</p>
-<a id="more"></a>
+        <h1 id="Java中6种常见的线程池"><a href="#Java中6种常见的线程池" class="headerlink" title="Java中6种常见的线程池"></a>Java中6种常见的线程池</h1><p>Java8中6中常见的线程池如下：</p>
 <ul>
-<li><strong>创建型模式</strong><ul>
-<li>工厂方法模式</li>
-<li>抽象工厂模式</li>
-<li>建造者模式</li>
-<li>单例模式</li>
-<li>原型模式</li>
+<li>FixedThreadPool</li>
+<li>CacheThreadPool</li>
+<li>ScheduledThreadPool</li>
+<li>SingleThreadExecutor</li>
+<li>SingleThreadScheduledExecutor</li>
+<li>ForkJoinPool<a id="more"></a>
+<strong>FixedThreadPool</strong></li>
 </ul>
-</li>
-<li><strong>结构型模式</strong><ul>
-<li>适配器模式</li>
-<li>装饰者模式</li>
-<li>代理模式</li>
-<li>外观模式</li>
-<li>桥接模式</li>
-<li>组合模式</li>
-<li>享元模式</li>
+<p>第一种线程池叫做FixedThreadPool，他的核心线程数和最大线程数是一样的，所以把它看作是固定线程数的线程池，<br>它的特点是线程池中的线程数除了初始阶段需要从0开始曾家湾，之后的线程数量就是固定的，就算任务数超过线程数，线程池也不<br>会在创建更多的线程来处理任务，而是会把超出线程处理能力的任务放到任务队列中进行等待。而且就算任务队列满了，到了本该继续增加线程数<br>的时候，由于最大线程数和核心线程数是一样的。所以也无法再增加新的线程了。</p>
+<p>使用队列：LinkedBlockingQueue,是一个无界队列，线程数固定，当任务增加太多，就可以放到没有容量限制的阻塞队列里面来</p>
+<p><strong>CacheThreadPool</strong></p>
+<p>第二种线程池是CacheThreadPool，可以称作缓存线程池，它的特点在于线程数是几乎可以无限增加的，<br>而当线程闲置时，还可以对想成进行回收。也就是说该线程池的线程数量不是固定不变的，当然它有一个用于存储提交任务的队列，<br>但这个队列是SynchronousQueue,队列的容量为0，实际不存储任何任务，它只负责对任务进行中转和传递，所以效率比较高。</p>
+<p>当我们提交一个任务后，线程池会判断已创建的线程中是否有空闲线程，如果有空闲线程则将任务直接指派给空闲线程，如果没有空闲线程，则新建线程去执行<br>任务，这样就做到了动态的新增线程。<br>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class DemoTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line"></span><br><span class="line">        for(int i=0; i &lt;100 ; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            executorService.submit(new Task());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Task implements Runnable&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        System.out.println(&quot;当前线程名字：&quot; + Thread.currentThread().getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而当任务执行完之后，假设没有新的任务了，那么大量的闲置线程又会造成内存资源的两份，这时线程池就会检测线程在60秒内<br>有没有可执行任务，如果没有就会被销毁，最终线程数量会减为0。</p>
+<p>使用队列：SynchronousQueue,线程数可以无限扩展，所有线程池不需要一个任务队列来存储任务，应为一旦有任务被提交就直接转发给线程或者创建新的线程执行，<br>而不需要另外保存它们</p>
+<p><strong>ScheduledThreadPool</strong></p>
+<p>第三个线程池是ScheduledThreadPool,它支持定时或周期性执行任务，比如每隔10秒钟执行一次任务，<br>如果在任务的执行中遇到异常，后续的执行被取消。<br>而实现这种功能的方法主要有3种，<br>代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ScheduledExecutorService service = Executors.newScheduledThreadPool(10);</span><br><span class="line"></span><br><span class="line">service.schedule(new Task(), 10, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">service.scheduleAtFixedRate(new Task(), 10 , 10, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">service.scheduleWithFixedDelay(new Task(), 10, 10 , TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure></p>
+<p>那么这三种方法有什么却别：</p>
+<ul>
+<li>第一种方法schedule比较简单，表示延迟指定时间后执行一次任务，如果代码中设置参数为10秒，也就是10秒后执行一次任务就结束了</li>
+<li>第二种方法scheduleAtFixedRate表示以固定频率执行任务，它的第二个参数initialDelay表示第一次延时时间，第三个参数perid表示周期，<br>也就是第一次延时多长时间执行一次任务</li>
+<li>第三种方法scheduleWithFixedDelay也是周期执行任务，区别在于对周期的定义，第二种是以任务开始的时间为时间起点开始计时，<br>时间到就开始执行第二次任务，而不管任务需要花多久执行；而第三种方法以任务结束的时间为下一次循环的时间起点开始计时。</li>
 </ul>
-</li>
-<li><strong>行为型模式</strong><ul>
-<li>策略模式</li>
-<li>观察者模式</li>
-<li>责任链模式</li>
-<li>备忘录模式</li>
-<li>模板方法模式</li>
-<li>迭代器模式</li>
-<li>中介者模式</li>
-<li>命令模式</li>
-<li>访问者模式</li>
-<li>解释器模式</li>
-<li>状态模式</li>
-</ul>
-</li>
-</ul>
-<h2 id="七大原则"><a href="#七大原则" class="headerlink" title="七大原则"></a>七大原则</h2><ul>
-<li><p><strong>开闭原则</strong></p>
-<p>定义：一个软件实体如：类、模块和函数应该对扩展开放，对修改关闭。</p>
-<p>用抽象构建框架，用实现扩展细节</p>
-<p>优点：提高软件系统的可服用性及可维护性</p>
-</li>
-<li><p><strong>依赖倒置原则</strong></p>
-<p>定义：高层模块不应该依赖低层模块，二者都应该依赖其抽象。</p>
-<p>抽象不应该依赖细节；细节应该依赖抽象，针对接口编程，不要针对实现编程。</p>
-</li>
-<li><p><strong>单一职责原则</strong></p>
-</li>
-<li><p><strong>接口隔离原则</strong></p>
-</li>
-<li><p><strong>迪米特法则(最少知道原则)</strong></p>
-</li>
-<li><p><strong>里氏替换原则</strong></p>
-</li>
-<li><p><strong>合成/服用原则</strong></p>
-</li>
-</ul>
+<p>使用队列：DelayedWorkQueue，因为这个线程池可以延迟执行任务，比如说一定时间后执行任务或是每隔一定的时间执行一次任务。DelayedWorkQueue<br>的特点是内部元素并不是按照放入的时间排序，而是会按照延迟的时间长短进行排序，内部采用的”堆”的数据结构。正是因为线程池是基于时间执行任务，<br>而延迟队列证号可以把任务按时间进行排序，方便任务的执行。</p>
+<p><strong>SingleThreadExecutor</strong></p>
+<p>第四种线程池是SingleThreadExecutor, 它会使用唯一的线程去执行任务，原理和FixedThreadPool是一样的，只不过这里线程只有一个，<br>如果线程在执行任务的过程中发生异常，线程池也会重新创建一个线程来执行后续的任务，这种线程池由于只有一个线程，所以分厂适合用于所有任务都<br>需要按提交的顺序依次执行的场景，而前集中线程池不一定能够保障任务的执行顺序等于被提交的顺序，因为他们是多线程并行执行的。</p>
+<p>使用队列：LinkedBlockingQueue,是一个无界队列，线程数只有一个，当任务增加太多，就可以放到没有容量限制的阻塞队列里面来</p>
+<p><strong>SingleThreadScheduledExecutor</strong></p>
+<p>SingleThreadScheduledExecutor，它实际和第三种ScheduledThreadPool线程池非常像是，它只是ScheduledThreadPool的一个特例，内部只有<br>一个线程。源码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new ScheduledThreadPoolExecutor(1)</span><br></pre></td></tr></table></figure></p>
+<p>它只是将ScheduledThreadPool的核心线程数设置为1</p>
+<p>使用队列：DelayedWorkQueue，因为这个线程池可以延迟执行任务，比如说一定时间后执行任务或是每隔一定的时间执行一次任务。DelayedWorkQueue<br>的特点是内部元素并不是按照放入的时间排序，而是会按照延迟的时间长短进行排序，内部采用的”堆”的数据结构。正是因为线程池是基于时间执行任务，<br>而延迟队列证号可以把任务按时间进行排序，方便任务的执行。</p>
+<p><strong>ForkJoinPool</strong></p>
+<p>第六种线程池是ForkJoinPool，主要用法和之前的线程池是相同的，也是把任务交给线程池去执行，线程池中也有任务队列来存放任务。<br>但是ForkJoinPool线程池和之前的线程池有两点非常大的不同之处。它非常适合执行可以产生子任务的任务。<br>其中一种用户如下代码所示：(斐波那契数列)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class Fibonacci extends RecursiveTask&lt;Integer&gt; &#123;</span><br><span class="line"></span><br><span class="line">    int n;</span><br><span class="line"></span><br><span class="line">    public Fibonacci(int n) &#123;</span><br><span class="line">        this.n = n;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected Integer compute() &#123;</span><br><span class="line">        if(n &lt;= 1)</span><br><span class="line">        &#123;</span><br><span class="line">            return n;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Fibonacci f1 = new Fibonacci(n -1);</span><br><span class="line">        f1.fork();</span><br><span class="line"></span><br><span class="line">        Fibonacci f2 = new Fibonacci(n -2);</span><br><span class="line">        f2.fork();</span><br><span class="line">        </span><br><span class="line">        return f1.join() + f2.join();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们看到它首先继承了RecursiveTask，RecursiveTask类是对ForkJoinTask的一个简单的包装，这时我们<br>重新compute()方法，当n &lt;=1时直接返回，当 n&gt;1就创建递归任务，也就是f1和f2，然后我们就用fork()方法<br>分裂任务并分别执行，最后在return的时候，使用join()方法把结果汇总，这样就实现了任务的分裂和汇总。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class DemoTest &#123;</span><br><span class="line">    public static void main(String[] args) throws ExecutionException, InterruptedException &#123;</span><br><span class="line"></span><br><span class="line">        // ForkJoinTask</span><br><span class="line">        ForkJoinPool forkJoinPool = new ForkJoinPool();</span><br><span class="line">        for(int i =0 ; i &lt; 10 ; i ++)</span><br><span class="line">        &#123;</span><br><span class="line">            ForkJoinTask&lt;Integer&gt; task = forkJoinPool.submit(new Fibonacci(i));</span><br><span class="line">            System.out.println(task.get());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">0</span><br><span class="line">1</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">5</span><br><span class="line">8</span><br><span class="line">13</span><br><span class="line">21</span><br><span class="line">34</span><br></pre></td></tr></table></figure></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本文介绍了Java中的常用的几种线程池以及对应内部使用的队列、以及一些使用场景。</p>
 
       
     </div>
@@ -510,7 +491,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
         </div>
       
@@ -523,8 +504,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/10/Scala学习/" rel="next" title="初识Scala">
-                <i class="fa fa-chevron-left"></i> 初识Scala
+              <a href="/2020/08/11/SpringBoot启动流程/" rel="next" title="SpringBoot启动流程">
+                <i class="fa fa-chevron-left"></i> SpringBoot启动流程
               </a>
             
           </div>
@@ -532,10 +513,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/12/24/markdown 语法笔记/" rel="prev" title="markdown 入门语法笔记">
-                markdown 入门语法笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -738,7 +715,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#设计模式"><span class="nav-number">1.</span> <span class="nav-text">设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#七大原则"><span class="nav-number">1.1.</span> <span class="nav-text">七大原则</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java中6种常见的线程池"><span class="nav-number">1.</span> <span class="nav-text">Java中6种常见的线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">1.1.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
             
 
           </div>
