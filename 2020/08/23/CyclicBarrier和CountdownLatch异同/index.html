@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="VenusJ" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="CyclicBarrier和CountdownLatch异同CyclicBarrier 作用 CyclicBarrier和CountdownLatch确实有一定的相似性。他们都能阻塞一个或者一组线程，直到某种预定的条件到达之后，这些之前在等待的线程才会同意处罚，继续向下执行。正因为它们有这个相似点，你可能会任务它们的作用完全一样的，其实并不是。 CyclicBarrier可以构造出一个集结点，当某">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CyclicBarrier和CountdownLatch异同">
+<meta property="og:url" content="/2020/08/23/CyclicBarrier和CountdownLatch异同/index.html">
+<meta property="og:site_name" content="VenusJ">
+<meta property="og:description" content="CyclicBarrier和CountdownLatch异同CyclicBarrier 作用 CyclicBarrier和CountdownLatch确实有一定的相似性。他们都能阻塞一个或者一组线程，直到某种预定的条件到达之后，这些之前在等待的线程才会同意处罚，继续向下执行。正因为它们有这个相似点，你可能会任务它们的作用完全一样的，其实并不是。 CyclicBarrier可以构造出一个集结点，当某">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-08-23T01:34:24.933Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CyclicBarrier和CountdownLatch异同">
+<meta name="twitter:description" content="CyclicBarrier和CountdownLatch异同CyclicBarrier 作用 CyclicBarrier和CountdownLatch确实有一定的相似性。他们都能阻塞一个或者一组线程，直到某种预定的条件到达之后，这些之前在等待的线程才会同意处罚，继续向下执行。正因为它们有这个相似点，你可能会任务它们的作用完全一样的，其实并不是。 CyclicBarrier可以构造出一个集结点，当某">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="/2020/08/23/CyclicBarrier和CountdownLatch异同/">
+
+
+
+
+
+  <title>CyclicBarrier和CountdownLatch异同 | VenusJ</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/venusj/venusj.github.io.git" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+	<header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">VenusJ</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-something">
+          <a href="/something" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            惊喜
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="/2020/08/23/CyclicBarrier和CountdownLatch异同/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="VenusJ">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/blog-logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VenusJ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CyclicBarrier和CountdownLatch异同</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-23T00:00:00+08:00">
+                2020-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">进阶</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+			<span class="post-meta-divider">|</span>
+			<span title="字数统计"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span>字数： 2.5k</span>
+          
+		  
+          
+            <div class="post-wordcount">
+              
+
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+	<div>
+		
+		
+		
+	</div>
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="CyclicBarrier和CountdownLatch异同"><a href="#CyclicBarrier和CountdownLatch异同" class="headerlink" title="CyclicBarrier和CountdownLatch异同"></a>CyclicBarrier和CountdownLatch异同</h1><p><strong>CyclicBarrier</strong></p>
+<p><strong>作用</strong></p>
+<p>CyclicBarrier和CountdownLatch确实有一定的相似性。他们都能阻塞一个或者一组线程，<br>直到某种预定的条件到达之后，这些之前在等待的线程才会同意处罚，继续向下执行。正因为它们有这个相似点，你可能会任务它们<br>的作用完全一样的，其实并不是。</p>
+<p>CyclicBarrier可以构造出一个集结点，当某一个线程执行await()方法时，它就会到这个集结点开始等待，<br>等待这个栅栏就被撤销。指导预定数量的线程都到了这个集结点之后，这个栅栏就会被撤销，之前等待的线程就在此刻统一出发，继续去<br>执行剩下的任务。<br><a id="more"></a><br>班级出去游玩，会租借三人自行车，需要凑齐三个人才能骑一辆，下面代码就是模拟这个场景：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">public class CyclicBarrierDemo</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    public static void main(String[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        CyclicBarrier cyclicBarrier = new CyclicBarrier(3);</span><br><span class="line">        </span><br><span class="line">        for (int i = 0; i &lt; 6; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            new Thread(new Task(i, cyclicBarrier)).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    static class Task implements Runnable</span><br><span class="line">    &#123;</span><br><span class="line">        private int id;</span><br><span class="line">        </span><br><span class="line">        private CyclicBarrier cyclicBarrier;</span><br><span class="line">        </span><br><span class="line">        public Task(int id, CyclicBarrier cyclicBarrier)</span><br><span class="line">        &#123;</span><br><span class="line">            this.id = id;</span><br><span class="line">            this.cyclicBarrier = cyclicBarrier;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        @Override</span><br><span class="line">        public void run()</span><br><span class="line">        &#123;</span><br><span class="line">            System.out.println(&quot;同学&quot; + id + &quot;现在从大门出发，前往自行车驿站&quot;);</span><br><span class="line">            try</span><br><span class="line">            &#123;</span><br><span class="line">                Thread.sleep((long) (Math.random() * 10000));</span><br><span class="line">                System.out.println(&quot;同学&quot; + id + &quot;到达自行车驿站，正在等待其他同学到达&quot;);</span><br><span class="line">                cyclicBarrier.await();</span><br><span class="line">                System.out.println(&quot;同学&quot; + id + &quot;开始骑车&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            catch (InterruptedException e)</span><br><span class="line">            &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            catch (BrokenBarrierException e)</span><br><span class="line">            &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">同学0现在从大门出发，前往自行车驿站</span><br><span class="line">同学1现在从大门出发，前往自行车驿站</span><br><span class="line">同学5现在从大门出发，前往自行车驿站</span><br><span class="line">同学4现在从大门出发，前往自行车驿站</span><br><span class="line">同学3现在从大门出发，前往自行车驿站</span><br><span class="line">同学2现在从大门出发，前往自行车驿站</span><br><span class="line">同学2到达自行车驿站，正在等待其他同学到达</span><br><span class="line">同学1到达自行车驿站，正在等待其他同学到达</span><br><span class="line">同学3到达自行车驿站，正在等待其他同学到达</span><br><span class="line">同学3开始骑车</span><br><span class="line">同学2开始骑车</span><br><span class="line">同学1开始骑车</span><br><span class="line">同学4到达自行车驿站，正在等待其他同学到达</span><br><span class="line">同学5到达自行车驿站，正在等待其他同学到达</span><br><span class="line">同学0到达自行车驿站，正在等待其他同学到达</span><br><span class="line">同学0开始骑车</span><br><span class="line">同学4开始骑车</span><br><span class="line">同学5开始骑车</span><br></pre></td></tr></table></figure></p>
+<p><strong>执行动作barrierAction</strong></p>
+<p>public CyclicBarrier(int parties, Runnable barrierAction):当paties线程到达集结点事，继续往下执行前，会执行这一次这个动作。</p>
+<p>接下来我们再介绍一下它的一个额外功能，就是执行动作barierAction功能，CyclicBarrier还有一个构造函数是传入两个参数的，<br>第一个参数依然是parties,代表需要几个线程到齐，第二个参数就是Runnable对象，它就是我们下面所要介绍的barrierAction.</p>
+<p>当预设数量的线程到达了集结点之后，再出发的时候，便会执行整理所传入的Runnable对象，那么假设我们把刚才那个代码的构造函数改成如下这个样子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CyclicBarrier cyclicBarrier = new CyclicBarrier(3, new Runnable() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        System.out.println(&quot;凑齐3人，出发了&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>执行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">同学0现在从大门出发，前往自行车驿站</span><br><span class="line">同学1现在从大门出发，前往自行车驿站</span><br><span class="line">同学5现在从大门出发，前往自行车驿站</span><br><span class="line">同学2现在从大门出发，前往自行车驿站</span><br><span class="line">同学3现在从大门出发，前往自行车驿站</span><br><span class="line">同学4现在从大门出发，前往自行车驿站</span><br><span class="line">同学3到达自行车驿站，正在等待其他同学到达</span><br><span class="line">同学1到达自行车驿站，正在等待其他同学到达</span><br><span class="line">同学0到达自行车驿站，正在等待其他同学到达</span><br><span class="line">凑齐3人，出发了</span><br><span class="line">同学0开始骑车</span><br><span class="line">同学3开始骑车</span><br><span class="line">同学1开始骑车</span><br><span class="line">同学2到达自行车驿站，正在等待其他同学到达</span><br><span class="line">同学5到达自行车驿站，正在等待其他同学到达</span><br><span class="line">同学4到达自行车驿站，正在等待其他同学到达</span><br><span class="line">凑齐3人，出发了</span><br><span class="line">同学4开始骑车</span><br><span class="line">同学5开始骑车</span><br><span class="line">同学2开始骑车</span><br></pre></td></tr></table></figure></p>
+<p>“凑齐3人，出发了”，这个语句是每个周期只打印一次，不是说你有几个线程在等待就打印几次，而是说这个任务只在”开闸”的时候执行一次。</p>
+<p><strong>CountDownLatch</strong></p>
+<p><strong>作用</strong></p>
+<p>java提供的并发流程控制的工具类，下面举个例子来说明它主要在什么场景下使用。</p>
+<p>游乐园坐过山车，为了节约成本，每次发车，都要坐满人，CountDownLatch的核心思想，等到一个设定的数值到达之后，才能出发。</p>
+<p><strong>主要方法介绍</strong></p>
+<p>(1) 构造函数：    public CountDownLatch(int count) { }</p>
+<p>它的构造函数是传入一个参数，该参数count是需要倒数的数值。</p>
+<p>(2) await(): 调用await()方法的线程开始等待，直到倒数借宿，也就是count值为0的时候才会继续执行。</p>
+<p>(3) await(long timeout, TimeUnit unit): await()有一个重载的方法。里面会传入超时参数，这个方法的作用和await()类似，但是这里可以设置超时时间，如果<br>超时就不再等待了。</p>
+<p>(4) countDown(): 把数值倒数1(递减1), 直到减到0时，之前等待的线程会被唤起。</p>
+<p><strong>用法一</strong>： 一个线程等待其他多个线程都执行完毕，再继续自己的工作。</p>
+<p>在实际场景中，很多情况下需要我们初始化一系列的前置条件(比如建立连接、准备数据)，都完成之后，再进行下一步工作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public class OneWaitManyThread &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        CountDownLatch countDownLatch = new CountDownLatch(5);</span><br><span class="line">        ExecutorService executorService = Executors.newFixedThreadPool(5);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        for(int i=0; i&lt;5 ; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            final int no =  i +1;</span><br><span class="line">            Runnable runnable = new Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void run() &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        Thread.sleep((long) (Math.random()*10000));</span><br><span class="line">                        System.out.println(no + &quot; 号运动员完成了比赛&quot;);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125; finally &#123;</span><br><span class="line">                        countDownLatch.countDown();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            executorService.submit(runnable);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;等待五个运动员跑完&quot;);</span><br><span class="line">        countDownLatch.await();</span><br><span class="line">        System.out.println(&quot;所有人都跑完了&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">等待五个运动员跑完</span><br><span class="line">1 号运动员完成了比赛</span><br><span class="line">5 号运动员完成了比赛</span><br><span class="line">4 号运动员完成了比赛</span><br><span class="line">3 号运动员完成了比赛</span><br><span class="line">2 号运动员完成了比赛</span><br><span class="line">所有人都跑完了</span><br></pre></td></tr></table></figure></p>
+<p>从结果看出，直到5个运动员都完成了比赛，主线程才会继续。</p>
+<p><strong>用法二</strong>： 多个线程等待某一个线程的信号，同时开始执行。</p>
+<p>实际场景，运动会上，运动员准备就绪，等待裁判开枪起跑，代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class CountDownLatchDemo &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        System.out.println(&quot;运动员有5秒的准备时间&quot;);</span><br><span class="line">        CountDownLatch countDownLatch = new CountDownLatch(1);</span><br><span class="line"></span><br><span class="line">        ExecutorService executorService = Executors.newFixedThreadPool(5);</span><br><span class="line"></span><br><span class="line">        for(int i =0; i&lt; 5 ; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            final int no = i + 1;</span><br><span class="line">            Runnable runnable = new Runnable() &#123;</span><br><span class="line"></span><br><span class="line">                @Override</span><br><span class="line">                public void run() &#123;</span><br><span class="line">                    System.out.println(no + &quot;号运动员准备完毕，等待中&quot;);</span><br><span class="line"></span><br><span class="line">                    try &#123;</span><br><span class="line">                        countDownLatch.await();</span><br><span class="line">                        System.out.println(no + &quot;号运动员开始跑步了&quot;);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            executorService.submit(runnable);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Thread.sleep(5000);</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;5秒准备时间已过，比赛开始&quot;);</span><br><span class="line">        countDownLatch.countDown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">运动员有5秒的准备时间</span><br><span class="line">3号运动员准备完毕，等待中</span><br><span class="line">1号运动员准备完毕，等待中</span><br><span class="line">4号运动员准备完毕，等待中</span><br><span class="line">2号运动员准备完毕，等待中</span><br><span class="line">5号运动员准备完毕，等待中</span><br><span class="line">5秒准备时间已过，比赛开始</span><br><span class="line">3号运动员开始跑步了</span><br><span class="line">2号运动员开始跑步了</span><br><span class="line">4号运动员开始跑步了</span><br><span class="line">1号运动员开始跑步了</span><br><span class="line">5号运动员开始跑步了</span><br></pre></td></tr></table></figure></p>
+<p><strong>注意点</strong></p>
+<ul>
+<li><p>刚才讲了两种用法，其实这两种用法并不是孤立的，甚至可以把这两种用法结合起来，比如利用两个CountDownLatch，<br>第一步初始值为多个，第二个初始值为1，这样就可以应对更复杂的业务场景了;</p>
+</li>
+<li><p>CountDownLatch是不能够重用的，比如已经完成了倒数，那可不可以在下一次继续去重新倒数？这个是做不到的，如果需要的话<br>可以考虑使用CyclicBarrier或者创建一个新的CountDownLatch。</p>
+</li>
+</ul>
+<p><strong>CyclicBarrier和CountdownLatch异同</strong></p>
+<p>相同点：都能阻塞一个或一组线程，直到某个预设的条件达成发生，再统一出发。</p>
+<p>但是它们也有很多不同点，具体如下：</p>
+<ul>
+<li><p><strong>作用对象不同</strong>：CyclicBarrier要等固定数量的线程都到达了栅栏未知才能继续执行，而CountDownLatch只需要<br>等待数字倒数到0，也就是说CountDownLatch作用于时间，但CyclicBarrier作用于线程;<br>COuntDownLatch是在调用了countDown方法之后把数字倒数减到1，而CyclicBarrier是在某线程开始等待后把计数减1</p>
+</li>
+<li><p><strong>可重用性不同</strong>：CountDownLatch在倒数到0并且触发门闩打开后，就不能再次使用了，除非新建一个新的实例；而CyclicBarrier<br>可以重复使用，在刚才的代码中也可以看出，每3个同学到了之后都能出发，并不需要重新新建实例。CyclicBarrier还可以随时调用<br>reset方法进行重置，如果重置时有线程已经调用了await方法并开始等待，那么这些线程则会抛出BrokenBarrierException异常。</p>
+</li>
+<li><p><strong>执行动作不同</strong>：CyclicBarrier有执行动作barrierAction,而CountDownLatch没有这个功能。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+	
+	<div>
+      
+        
+      
+	</div>
+	
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="VenusJ 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="VenusJ 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/12/6种常见的线程池/" rel="next" title="Java中6种常见的线程池">
+                <i class="fa fa-chevron-left"></i> Java中6种常见的线程池
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/blog-logo.jpg" alt="VenusJ">
+            
+              <p class="site-author-name" itemprop="name">VenusJ</p>
+              <p class="site-description motion-element" itemprop="description">主要涉及前端知识共享、实践教程、前沿技术共同学习等方面</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/venusj" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1329705209@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/weixin_38796712" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.alloyteam.com/nav/" title="Web前端导航" target="_blank">Web前端导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.chuangzaoshi.com/code" title="创造狮导航" target="_blank">创造狮导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.36zhen.com/t?id=3448" title="前端书籍资料" target="_blank">前端书籍资料</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://e.xitu.io/" title="掘金酱" target="_blank">掘金酱</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.v2ex.com/" title="V2EX" target="_blank">V2EX</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.v2ex.com/" title="印记中文" target="_blank">印记中文</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CyclicBarrier和CountdownLatch异同"><span class="nav-number">1.</span> <span class="nav-text">CyclicBarrier和CountdownLatch异同</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VenusJ</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">21.3k</span>
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">由  强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash;  v5.1.4</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
